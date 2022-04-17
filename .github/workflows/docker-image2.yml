@@ -17,9 +17,6 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile --tag ppa:latest
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
         echo {{secrets.AWS_LOGIN_KEY}}| docker login --username AWS --password-stdin public.ecr.aws/r1a6z4y2
         docker tag ppa:latest public.ecr.aws/r1a6z4y2/ppa:latest
         docker push public.ecr.aws/r1a6z4y2/ppa:latest
