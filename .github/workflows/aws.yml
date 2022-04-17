@@ -69,22 +69,22 @@ jobs:
         docker push public.ecr.aws/r1a6z4y2/app:latest
     
 
-    - name: Render Amazon ECS task definition
-      id: render-web-container
+    #- name: Render Amazon ECS task definition
+      #id: render-web-container
+      #uses: aws-actions/amazon-ecs-render-task-definition@v1
+     # with:
+       # task-definition: ${{ env.ECS_TASK_DEFINITION }}
+      #  container-name: ${{ env.CONTAINER_NAME }}
+       # image: public.ecr.aws/r1a6z4y2/app:latest
+       # environment-variables: "LOG_LEVEL=info"
+        
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: public.ecr.aws/r1a6z4y2/app:latest
-        environment-variables: "LOG_LEVEL=info"
-        
-   # - name: Fill in the new image ID in the Amazon ECS task definition
-    #  id: task-def
-     # uses: aws-actions/amazon-ecs-render-task-definition@v1
-      #with:
-       # task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        #container-name: ${{ env.CONTAINER_NAME }}
-       # image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
