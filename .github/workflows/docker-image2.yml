@@ -27,6 +27,12 @@ jobs:
         docker tag ppa:latest public.ecr.aws/r1a6z4y2/ppa:latest
         docker push public.ecr.aws/r1a6z4y2/ppa:latest
           
-          
+    - name: Deploy to Amazon ECS
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        service: App2S
+        cluster: App2
+        wait-for-service-stability: true
       
     
