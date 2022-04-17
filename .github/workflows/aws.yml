@@ -69,7 +69,8 @@ jobs:
         docker push public.ecr.aws/r1a6z4y2/ppa:latest
     
     -name: List files
-      run: ls -R
+      run:  ls -R
+      run:  echo "Hi"
 
     - name: Render Amazon ECS task definition
       id: render-web-container
