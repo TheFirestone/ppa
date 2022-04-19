@@ -62,11 +62,15 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
         
     - name: Build the Docker image
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build . --file Dockerfile --tag app:latest
         aws ecr-public get-login-password --region us-east-1| docker login --username AWS --password-stdin public.ecr.aws/r1a6z4y2
-        docker tag app:latest public.ecr.aws/r1a6z4y2/app:$(date +%s)
-        docker push public.ecr.aws/r1a6z4y2/app:$(date +%s)
+        docker tag app:latest public.ecr.aws/r1a6z4y2/app:$IMAGE_TAGE
+        docker push public.ecr.aws/r1a6z4y2/app:$IMAGE_TAG
     
 
     #- name: Render Amazon ECS task definition
@@ -84,7 +88,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: public.ecr.aws/r1a6z4y2/app:$(date +%s)
+        image:  ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
