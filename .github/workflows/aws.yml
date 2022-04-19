@@ -68,6 +68,7 @@ jobs:
         aws ecr-public get-login-password --region us-east-1| docker login --username AWS --password-stdin public.ecr.aws/r1a6z4y2
         docker tag app:latest public.ecr.aws/r1a6z4y2/app:latest
         docker push public.ecr.aws/r1a6z4y2/app:latest
+        echo "::set-output name=image::public.ecr.aws/r1a6z4y2/app:latest"
 
     #- name: Render Amazon ECS task definition
       #id: render-web-container
