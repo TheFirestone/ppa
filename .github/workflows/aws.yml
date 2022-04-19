@@ -69,6 +69,7 @@ jobs:
         docker tag app:latest public.ecr.aws/r1a6z4y2/app:latest
         docker push public.ecr.aws/r1a6z4y2/app:latest
         echo "::set-output name=image::public.ecr.aws/r1a6z4y2/app:latest"
+        echo "app"
 
     #- name: Render Amazon ECS task definition
       #id: render-web-container
